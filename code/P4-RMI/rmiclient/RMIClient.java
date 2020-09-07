@@ -3,12 +3,12 @@ package rmiclient;
  * This is a simple client program that uses methods as a service from another, server program.
  * 
  * There are two services provided by the server and consumed by this client:
- * - calculation
+ * - calculator
  * - date/time info
  *
- * The client gets input from the console: two operands/numbers and the operator/character
- * Then the client builds a stub, which searches for a service and connects with the server for getting it
- * Finally, the client prints out the results on the console
+ * The client gets input from the console: two operands [numbers] and arithmetic operator [character]
+ * Then the client builds a stub, which first searches for a service and then connects with the server for getting the serviuce
+ * Finally, the client prints out the results and the current date on the console
  * 
  * @author Dora Di
  */
@@ -55,8 +55,8 @@ public class RMIClient
     public static void printout(double result, java.util.Date today)
     {
         // Print the results on the Client console
-        System.out.println("Server says: result = " + result);
-        System.out.println("Server says: today is " + today);
+        System.out.println("Client: result = " + result);
+        System.out.println("Client: today is " + today);
     }        
         
     

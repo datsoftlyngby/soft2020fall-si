@@ -35,6 +35,7 @@ public class RMIServer
             String engineName = "Compute";
             Naming.rebind("//localhost/" + engineName, remoteEngine);
             System.out.println("Engine " + engineName + " bound in registry");
+
         }
         catch (Exception e)
         {

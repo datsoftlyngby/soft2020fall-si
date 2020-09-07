@@ -27,8 +27,9 @@ public class RMIInterfaceImplementation extends UnicastRemoteObject implements r
             case '-': result = a - b; break;
             case '*': result = a * b; break;
             case '/': result = (double)a / b; break;
-            case '%': result = a % b;                       
-        }   
+            case '%': result = a % b;
+        }
+        System.out.println("Server: " + a + c + b + "=" + result);
     return result;
   }
 }
