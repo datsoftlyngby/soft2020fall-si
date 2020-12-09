@@ -1,0 +1,79 @@
+Microservices Docker Kubernetes Demo Example
+
+It is a students' info system, built of 4 microservices:
+- students + H2 DB
+- assignments + H2 DB
+- peergrade
+- mongoDB
+
+1. Start Docker and Kubernetes
+2. Recycle  P10-RESTful-Level-3 into a microservice
+3. Create an assignments microservice
+*********************************************************************
+4. Create new Spring Boot project with Web and MongoDB dependency
+5. In the project folder (the terminal), create an empty Mongo Docker container
+docker run -P -d --name mymongo mongo
+6. Check if mongo is up and running
+docker exec -it mymongo sh
+7. In the shell, to get info and confirmation, type
+mongo
+8. Try to create a database and a collection in it
+use mymongotestdb
+db.createCollection ('testCollection')
+9. Finish the test with
+Ctrl/C
+exit
+10. Check which port has been given to mymongo in the container
+docker ps -a
+11. Try to access it from out of the container on the localhost port (32768?).
+You may decide to download a GUI for MongoDB, e.g. Compass from https://www.mongodb.com/try/download/compass
+12. Now create a microservice, which will store data in a new mongo database
+*****************************************************************************
+13. For each microservice, create an executable (jar) file.
+14. For each microservice create a Dockerfile
+
+FROM java:8
+VOLUME /resources/static
+ADD target/ms-peergrade.jar app1.jar
+EXPOSE 8080
+RUN bash -c 'touch /app1.jar'
+ENTRYPOINT ["java","-Dspring.data.mongodb.uri=mongodb://mongo/records", "-Djava.security.egd=file:/dev/./urandom","-jar","/app1.jar"]
+
+15. Create an image
+docker build -t mydemo/records .
+16. Check with
+docker images
+17. Build container
+docker run -p 7070:8080 -d --name records --link mymongo mydemo/records
+18. Repeat 14-17 for each microservice
+*******************************************
+19. Create docker-compose.yml
+records:
+  build: records
+  ports:
+    - "8080"
+  links:
+    - mymongo
+
+tasks:
+    build: tasks
+    ports:
+      - "8080"
+    links:
+      - mymongo
+
+students:
+    build: students
+    ports:
+      - "8080"
+    links:
+      - mymongo
+
+mymongo:
+  image: mongo
+
+20. Scale a microservice
+docker-compose scale records=3
+
+
+
