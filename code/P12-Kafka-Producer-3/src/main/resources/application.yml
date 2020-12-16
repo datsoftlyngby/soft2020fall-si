@@ -3,7 +3,7 @@ server:
 spring:
   kafka:
     producer:
-      topic: partitioned
+      topic: another-test-topic
       auto-offset-reset: earliest
       partitioned: true
       partition-count: 3
